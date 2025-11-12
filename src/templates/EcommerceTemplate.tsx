@@ -6,17 +6,9 @@ import { FloatingCart } from '@/components/FloatingCart'
 import { ProfileMenu } from '@/components/ProfileMenu'
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
-import { ShoppingCart } from 'lucide-react'
+import { ShoppingCart, Recycle } from 'lucide-react'
 import { useCartUI } from '@/components/CartProvider'
 import { useCart } from '@/contexts/CartContext'
-import { Input } from '@/components/ui/input'
-
-/**
- * EDITABLE TEMPLATE - EcommerceTemplate
- * 
- * Template específico para páginas de ecommerce con header, footer y cart.
- * El agente IA puede modificar completamente el diseño, colores, layout.
- */
 
 interface EcommerceTemplateProps {
   children: ReactNode
@@ -42,25 +34,37 @@ export const EcommerceTemplate = ({
   const totalItems = getTotalItems()
 
   const header = (
-    <div className={`py-4 ${headerClassName}`}>
+    <div className={`py-4 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 ${headerClassName}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center">
-            <Link to="/">
-              <BrandLogoLeft />
+          <div className="flex items-center gap-2">
+            <Link to="/" className="flex items-center gap-2">
+              <div className="bg-primary text-primary-foreground p-2 rounded-lg">
+                <Recycle className="h-5 w-5" />
+              </div>
+              <span className="font-bold text-xl text-foreground">VintageFind</span>
             </Link>
           </div>
 
           {/* Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-6">
             <nav className="flex space-x-6">
               <Link 
+                to="/" 
+                className="text-foreground/70 hover:text-foreground font-medium transition-colors"
+              >
+                Shop
+              </Link>
+              <Link 
                 to="/blog" 
-                className="text-foreground/70 hover:text-foreground transition-colors"
+                className="text-foreground/70 hover:text-foreground font-medium transition-colors"
               >
                 Blog
               </Link>
+              <button className="text-foreground/70 hover:text-foreground font-medium transition-colors">
+                Sell
+              </button>
             </nav>
           </div>
 
@@ -73,12 +77,12 @@ export const EcommerceTemplate = ({
                 variant="ghost"
                 size="icon"
                 onClick={openCart}
-                className="relative"
-                aria-label="Ver carrito"
+                className="relative hover:bg-primary/10"
+                aria-label="View cart"
               >
                 <ShoppingCart className="h-5 w-5" />
                 {totalItems > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                     {totalItems > 99 ? '99+' : totalItems}
                   </span>
                 )}
@@ -100,45 +104,70 @@ export const EcommerceTemplate = ({
   )
 
   const footer = (
-    <div className={`bg-black text-white py-12 ${footerClassName}`}>
+    <div className={`bg-foreground text-background py-12 ${footerClassName}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
-          <div>
-            <BrandLogoLeft />
-            <p className="mt-4 text-white/70">
-              Your trusted online store
+          <div className="md:col-span-2">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="bg-primary text-primary-foreground p-2 rounded-lg">
+                <Recycle className="h-5 w-5" />
+              </div>
+              <span className="font-bold text-xl">VintageFind</span>
+            </div>
+            <p className="text-background/70 mb-4">
+              Your trusted secondhand & recommerce marketplace for authentic vintage fashion. Sustainable style with a story.
             </p>
+            <SocialLinks />
           </div>
 
-          {/* Links */}
+          {/* Shop */}
           <div>
-            <h3 className="font-semibold mb-4 text-white">Links</h3>
+            <h3 className="font-semibold mb-4 text-background">Shop</h3>
             <div className="space-y-2">
               <Link 
                 to="/" 
-                className="block text-white/70 hover:text-white transition-colors"
+                className="block text-background/70 hover:text-background transition-colors"
               >
-                Home
+                All Items
               </Link>
               <Link 
-                to="/blog" 
-                className="block text-white/70 hover:text-white transition-colors"
+                to="/" 
+                className="block text-background/70 hover:text-background transition-colors"
               >
-                Blog
+                Collections
+              </Link>
+              <Link 
+                to="/" 
+                className="block text-background/70 hover:text-background transition-colors"
+              >
+                New Arrivals
               </Link>
             </div>
           </div>
 
-          {/* Social Links */}
+          {/* About */}
           <div>
-            <h3 className="font-semibold mb-4 text-white">Follow Us</h3>
-            <SocialLinks />
+            <h3 className="font-semibold mb-4 text-background">About</h3>
+            <div className="space-y-2">
+              <Link 
+                to="/blog" 
+                className="block text-background/70 hover:text-background transition-colors"
+              >
+                Blog
+              </Link>
+              <button className="block text-background/70 hover:text-background transition-colors">
+                Sell With Us
+              </button>
+              <button className="block text-background/70 hover:text-background transition-colors">
+                Sustainability
+              </button>
+            </div>
           </div>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-white/20 text-center text-white/70">
-          <p>&copy; 2024 Your Store. All rights reserved.</p>
+        <div className="mt-8 pt-8 border-t border-background/20 text-center text-background/70">
+          <p>&copy; 2024 VintageFind. Sustainable fashion marketplace.</p>
         </div>
       </div>
     </div>
